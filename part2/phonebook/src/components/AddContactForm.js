@@ -1,7 +1,7 @@
 import React from 'react';
 
 const AddContactForm = ({ onSubmit, newPerson, onChange }) => (
-  <form onSubmit={(event) => onSubmit(event, newPerson)}>
+  <form onSubmit={onSubmit}>
     <div>
       name: <input name="name" value={newPerson.name} onChange={onChange} />
     </div>
