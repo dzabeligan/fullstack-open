@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 import AddContactForm from './components/AddContactForm';
 import ContactList from './components/ContactList';
 import Filter from './components/Filter';
+import phonebookService from './services/phonebook';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,9 +11,7 @@ const App = () => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:3001/persons').then((response) => {
-      setPersons(response.data);
-    });
+    phonebookService.getAll().then((initialContacts) => setPersons(initialContacts));
   }, []);
 
   const handleSearch = ({ target: { value } }) => {
@@ -29,10 +27,29 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault();
     if (persons.find((person) => person.name.toLowerCase() === newPerson.name.toLowerCase())) {
-      alert(`${newPerson.name} is already added to phonebook`);
+      if (
+        !window.confirm(
+          `${newPerson.name} is already added to phonebook. Do you want to replace the old number with a new one?`,
+        )
+      )
+        return;
+      const id = persons.find((person) => person.name.toLowerCase() === newPerson.name.toLowerCase()).id;
+      phonebookService
+        .updateContact(id, newPerson)
+        .then((updatedContact) => {
+          setPersons(persons.map((person) => (person.id !== id ? person : updatedContact)));
+          setNewPerson({ name: '', number: '', id: '' });
+        })
+        .catch((error) => {
+          alert(`the contact '${newPerson.name}' was already deleted from server`);
+          setPersons(persons.filter((person) => person.id !== id));
+          setNewPerson({ name: '', number: '', id: '' });
+        });
       return;
     }
-    setPersons((prevPersons) => [...prevPersons, { ...newPerson, id: persons.length + 1 }]);
+    phonebookService
+      .createContact({ ...newPerson, id: persons.length + 1 })
+      .then((newContact) => setPersons((prevPersons) => [...prevPersons, newContact]));
     setNewPerson({ name: '', number: '', id: '' });
   };
 
