@@ -1,24 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import phonebookService from '../services/phonebook';
 
-const ContactList = ({ filteredPersons }) => {
-  const [persons, setPersons] = useState([]);
-
-  useEffect(() => setPersons(filteredPersons), [filteredPersons]);
-
+const ContactList = ({ filteredPersons, onError, onDelete }) => {
   const handleClick = (event, { id, name }) => {
     if (!window.confirm(`Delete ${name} ?`)) return;
     phonebookService
       .deleteContact(id, name)
-      .then((response) => setPersons(persons.filter((person) => person.id !== id)))
+      .then((response) => onDelete(id))
       .catch((error) => {
-        setPersons(persons.filter((person) => person.id !== id));
-        alert(`the contact '${name}' was already deleted from server`);
+        onDelete(id);
+        onError({ message: `the contact '${name}' was already deleted from server`, type: 'error' });
       });
   };
 
-  return persons.map((person) => (
+  return filteredPersons.map((person) => (
     <p key={person.id}>
       {person.name} {person.number} <button onClick={(event) => handleClick(event, person)}>delete</button>
     </p>
