@@ -8,7 +8,7 @@ import phonebookService from './services/phonebook';
 
 const App = () => {
   const [persons, setPersons] = useState([]);
-  const [newPerson, setNewPerson] = useState({ name: '', number: '', id: '' });
+  const [newPerson, setNewPerson] = useState({ name: '', number: '' });
   const [search, setSearch] = useState('');
   const [notification, setNotification] = useState({});
 
@@ -48,6 +48,7 @@ const App = () => {
           setTimeout(() => setNotification({}), 5000);
         })
         .catch((error) => {
+          console.log(error);
           setNotification({
             message: `Information of ${newPerson.name} has already been removed from server`,
             type: 'error',
@@ -55,15 +56,22 @@ const App = () => {
           setTimeout(() => setNotification({}), 5000);
           setPersons(persons.filter((person) => person.id !== id));
         });
-      setNewPerson({ name: '', number: '', id: '' });
+      setNewPerson({ name: '', number: '' });
       return;
     }
-    phonebookService.createContact({ ...newPerson, id: persons.length + 1 }).then((newContact) => {
-      setPersons((prevPersons) => [...prevPersons, newContact]);
-      setNotification({ message: `Added ${newPerson.name}` });
-      setTimeout(() => setNotification({}), 5000);
-      setNewPerson({ name: '', number: '', id: '' });
-    });
+    phonebookService
+      .createContact(newPerson)
+      .then((newContact) => {
+        setPersons((prevPersons) => [...prevPersons, newContact]);
+        setNotification({ message: `Added ${newPerson.name}` });
+        setTimeout(() => setNotification({}), 5000);
+        setNewPerson({ name: '', number: '' });
+      })
+      .catch((error) => {
+        console.log(error);
+        setNotification({ message: error.message, type: 'error' });
+        setTimeout(() => setNotification({}), 5000);
+      });
   };
 
   return (
