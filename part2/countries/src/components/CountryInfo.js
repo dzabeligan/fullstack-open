@@ -7,10 +7,9 @@ const CountryInfo = ({ country }) => {
   const api_key = process.env.REACT_APP_API_KEY;
 
   useEffect(() => {
-    axios.get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${data.capital}`).then((response) => {
-      console.log(response);
-      setWeather(response.data.current);
-    });
+    axios
+      .get(`http://api.weatherstack.com/current?access_key=${api_key}&query=${data.capital}`)
+      .then((response) => setWeather(response.data.current));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
