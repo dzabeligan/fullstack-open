@@ -20,6 +20,7 @@ const LoginForm = ({ login }) => {
         <input
           type="text"
           value={credentials.username}
+          id="username"
           name="username"
           onChange={handleChange}
           autoComplete="username"
@@ -30,12 +31,15 @@ const LoginForm = ({ login }) => {
         <input
           type="password"
           value={credentials.password}
+          id="password"
           name="password"
           onChange={handleChange}
           autoComplete="current-password"
         />
       </div>
-      <button type="submit">login</button>
+      <button id="login-button" type="submit">
+        login
+      </button>
     </form>
   )
 }

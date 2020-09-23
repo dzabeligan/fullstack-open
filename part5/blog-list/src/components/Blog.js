@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 
-import blogService from '../services/blogs';
+import blogService from '../services/blogs'
 
 const Blog = ({ blog, handleLikes, onDelete, onError, user }) => {
-  const [showExpanded, setShowExpanded] = useState(false);
+  const [showExpanded, setShowExpanded] = useState(false)
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
     border: 'solid',
     borderWidth: 1,
     marginBottom: 5,
-  };
+  }
 
   const handleClick = async () => {
-    if (!window.confirm(`Delete ${blog.title} ?`)) return;
+    if (!window.confirm(`Delete ${blog.title} ?`)) return
     try {
-      await blogService.remove(blog.id);
-      onDelete(blog.id);
+      await blogService.remove(blog.id)
+      onDelete(blog.id)
     } catch (error) {
-      onDelete(blog.id);
-      onError({ message: `the blog '${blog.title}' was already deleted from server`, type: 'error' });
+      onDelete(blog.id)
+      onError({ message: `the blog '${blog.title}' was already deleted from server`, type: 'error' })
     }
-  };
+  }
 
   return (
     <div style={blogStyle} className="blog">
@@ -41,15 +41,15 @@ const Blog = ({ blog, handleLikes, onDelete, onError, user }) => {
         </>
       )}
     </div>
-  );
-};
+  )
+}
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   handleLikes: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
   onError: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
-};
+  user: PropTypes.object,
+}
 
-export default Blog;
+export default Blog
