@@ -1,5 +1,9 @@
 {
   "dependencies": {
-    "axios": "^0.20.0"
+    "axios": "^0.20.0",
+    "prop-types": "^15.7.2"
+  },
+  "devDependencies": {
+    "eslint-plugin-jest": "^24.0.2"
   }
 }
