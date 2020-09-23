@@ -22,8 +22,8 @@ describe('Blog app', function () {
 
   it('user can log in', function () {
     cy.contains('log in').click()
-    cy.get('#username').type('mluukkai')
-    cy.get('#password').type('salainen')
+    cy.get('#username').type('dzabeligan')
+    cy.get('#password').type('dzapassword')
     cy.get('#login-button').click()
 
     cy.contains('Elijah Balogun logged in')
