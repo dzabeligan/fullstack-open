@@ -1,7 +1,9 @@
 {
   "dependencies": {
     "axios": "^0.20.0",
-    "prop-types": "^15.7.2"
+    "prop-types": "^15.7.2",
+    "react-redux": "^7.2.1",
+    "redux": "^4.0.5"
   },
   "devDependencies": {
     "eslint-plugin-cypress": "^2.11.1",
