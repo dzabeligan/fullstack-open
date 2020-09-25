@@ -12,7 +12,7 @@ const notificationReducer = (state = '', action) => {
 let notification;
 export const setNotification = (message, time) => {
   return async (dispatch) => {
-    clearTimeout(notification);
+    if (notification) clearTimeout(notification);
     dispatch({
       type: 'SET_NOTIFICATION',
       message,
