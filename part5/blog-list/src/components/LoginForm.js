@@ -1,51 +1,46 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import { useDispatch } from 'react-redux';
 
-const LoginForm = ({ login }) => {
-  const [credentials, setCredentials] = useState({ username: '', password: '' })
+import { login } from '../reducers/userReducer';
+import { setNotification } from '../reducers/notificationReducer';
+import { useField } from '../hooks';
 
-  const handleChange = ({ target: { name, value } }) => {
-    setCredentials((prevValue) => ({ ...prevValue, [name]: value }))
-  }
+const LoginForm = () => {
+  const dispatch = useDispatch();
+  const username = useField('text', 'username');
+  const password = useField('password', 'password');
 
+  const { reset: usernameReset, ...usernameToPass } = username;
+  const { reset: passwordReset, ...passwordToPass } = password;
+
+  const reset = () => {
+    return [username, password].forEach((field) => field['reset']());
+  };
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    await login(credentials)
-  }
+    event.preventDefault();
+    try {
+      dispatch(login({ username: username.value, password: password.value }));
+      reset();
+    } catch (error) {
+      dispatch(setNotification({ message: 'Wrong credentials', type: 'error' }));
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit}>
       <div>
         username:
-        <input
-          type="text"
-          value={credentials.username}
-          id="username"
-          name="username"
-          onChange={handleChange}
-          autoComplete="username"
-        />
+        <input {...usernameToPass} autoComplete="username" />
       </div>
       <div>
         password:
-        <input
-          type="password"
-          value={credentials.password}
-          id="password"
-          name="password"
-          onChange={handleChange}
-          autoComplete="current-password"
-        />
+        <input {...passwordToPass} autoComplete="current-password" />
       </div>
       <button id="login-button" type="submit">
         login
       </button>
     </form>
-  )
-}
+  );
+};
 
-LoginForm.propTypes = {
-  login: PropTypes.func.isRequired,
-}
-
-export default LoginForm
+export default LoginForm;

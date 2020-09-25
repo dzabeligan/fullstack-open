@@ -1,45 +1,63 @@
-import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import React, { useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import Togglable from './Togglable';
 
-const initialState = { title: '', author: '', url: '' }
+import { createBlog } from '../reducers/blogReducer';
+import { setNotification } from '../reducers/notificationReducer';
+import { useField } from '../hooks';
 
-const BlogForm = ({ newBlog }) => {
-  const [blog, setBlog] = useState(initialState)
+const BlogForm = () => {
+  const dispatch = useDispatch();
+  const title = useField('text', 'title');
+  const author = useField('text', 'author');
+  const url = useField('text', 'url', 'url');
+  const blogFormRef = useRef();
 
-  const handleChange = ({ target: { name, value } }) => {
-    setBlog((prevValue) => ({ ...prevValue, [name]: value }))
-  }
+  const { reset: titleReset, ...titleToPass } = title;
+  const { reset: authorReset, ...authorToPass } = author;
+  const { reset: urlReset, ...urlToPass } = url;
+
+  const reset = () => {
+    return [title, author, url].forEach((field) => field['reset']());
+  };
 
   const handleSubmit = async (event) => {
-    event.preventDefault()
-    await newBlog(blog)
-    setBlog(initialState)
-  }
+    event.preventDefault();
+    try {
+      const blog = {
+        title: title.value,
+        author: author.value,
+        url: url.value,
+      };
+      dispatch(createBlog(blog));
+      dispatch(setNotification({ message: `a new blog ${blog.title} by ${blog.author} added`, type: 'success' }));
+      reset();
+      blogFormRef.current.toggleVisibility();
+    } catch (error) {
+      dispatch(setNotification({ message: 'Unauthorized', type: 'error' }));
+    }
+  };
 
   return (
-    <>
+    <Togglable buttonLabel="new blog" ref={blogFormRef}>
       <h2>create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
           title:
-          <input id="title" type="text" value={blog.title} name="title" onChange={handleChange} />
+          <input {...titleToPass} />
         </div>
         <div>
           author:
-          <input id="author" type="text" value={blog.author} name="author" onChange={handleChange} />
+          <input {...authorToPass} />
         </div>
         <div>
           url:
-          <input id="url" type="text" value={blog.url} name="url" onChange={handleChange} />
+          <input {...urlToPass} />
         </div>
         <button type="submit">add blog</button>
       </form>
-    </>
-  )
-}
+    </Togglable>
+  );
+};
 
-BlogForm.propTypes = {
-  newBlog: PropTypes.func.isRequired,
-}
-
-export default BlogForm
+export default BlogForm;
