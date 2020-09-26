@@ -6,6 +6,7 @@ import { createBlog } from '../reducers/blogReducer';
 import { setNotification } from '../reducers/notificationReducer';
 import { useField } from '../hooks';
 import { Button, TextField } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
 const BlogForm = () => {
   const dispatch = useDispatch();
@@ -41,23 +42,22 @@ const BlogForm = () => {
 
   return (
     <Togglable buttonLabel="new blog" ref={blogFormRef}>
-      <h2>create new</h2>
+      <Typography variant="subtitle1">create new</Typography>
       <form onSubmit={handleSubmit}>
-        <div>
-          title:
-          <TextField variant="outlined" size="small" {...titleToPass} />
+        <div style={{ marginBottom: 10 }}>
+          <TextField label="title" variant="outlined" size="small" {...titleToPass} />
         </div>
-        <div>
-          author:
-          <TextField variant="outlined" size="small" {...authorToPass} />
+        <div style={{ marginBottom: 10 }}>
+          <TextField label="author" variant="outlined" size="small" {...authorToPass} />
         </div>
-        <div>
-          url:
-          <TextField variant="outlined" size="small" {...urlToPass} />
+        <div style={{ marginBottom: 10 }}>
+          <TextField label="url" variant="outlined" size="small" {...urlToPass} />
         </div>
-        <Button variant="outlined" color="primary" type="submit">
-          add blog
-        </Button>
+        <div style={{ marginBottom: 10, marginTop: 5 }}>
+          <Button variant="outlined" color="primary" type="submit">
+            add blog
+          </Button>
+        </div>
       </form>
     </Togglable>
   );

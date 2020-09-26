@@ -27,7 +27,7 @@ const App = () => {
   return (
     <div>
       <Nav />
-      <Typography variant="caption">
+      <Typography variant="caption" style={{ marginBottom: '60px' }}>
         {loggedInUser === null ? 'log into application' : `logged in as ${loggedInUser.name}`}
       </Typography>
       <Notification />

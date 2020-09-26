@@ -9,7 +9,7 @@ import { Button, Link, Typography, TextField } from '@material-ui/core';
 const Comments = ({ comments }) => (
   <ul>
     {comments.map(({ comment, id }) => (
-      <li key={id}>
+      <li key={id} style={{ listStyle: 'none', marginBottom: 5 }}>
         <Typography variant="body2">{comment}</Typography>
       </li>
     ))}
@@ -50,15 +50,16 @@ const Blog = () => {
   };
 
   return blog ? (
-    <div className="blog">
+    <div className="blog" style={{ marginTop: 30 }}>
       <Typography variant="h6">{blog.title}</Typography>
       <Typography variant="subtitle1">{blog.author}</Typography>
+      <br />
       <Link href={blog.url}>{blog.url}</Link>
-      <div>
+      <div style={{ lineSpacing: '2' }}>
         <Typography variant="body2" component="span">
           {blog.likes} likes{' '}
         </Typography>{' '}
-        <Button variant="outlined" size="small" color="primary" onClick={handleLikes}>
+        <Button variant="outlined" size="small" onClick={handleLikes}>
           like
         </Button>
       </div>
@@ -66,12 +67,14 @@ const Blog = () => {
         <Typography variant="caption" component="span">
           {blog.user?.name && <div>added by {blog.user?.name}</div>}
         </Typography>
+        <br />
         {user?.username === blog.user?.username && (
           <Button color="secondary" size="small" variant="contained" onClick={handleClick}>
             delete
           </Button>
         )}
       </div>
+      <br />
       <Typography variant="overline" component="h3">
         comments
       </Typography>
