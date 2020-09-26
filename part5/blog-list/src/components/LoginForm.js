@@ -1,14 +1,14 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-
+import Togglable from './Togglable';
 import { login } from '../reducers/userReducer';
 import { setNotification } from '../reducers/notificationReducer';
 import { useField } from '../hooks';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
-  const username = useField('text', 'username');
-  const password = useField('password', 'password');
+  const username = useField('text');
+  const password = useField('password');
 
   const { reset: usernameReset, ...usernameToPass } = username;
   const { reset: passwordReset, ...passwordToPass } = password;
@@ -27,19 +27,21 @@ const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        username:
-        <input {...usernameToPass} autoComplete="username" />
-      </div>
-      <div>
-        password:
-        <input {...passwordToPass} autoComplete="current-password" />
-      </div>
-      <button id="login-button" type="submit">
-        login
-      </button>
-    </form>
+    <Togglable buttonLabel="log in">
+      <form onSubmit={handleSubmit}>
+        <div>
+          username:
+          <input {...usernameToPass} id="username" autoComplete="username" />
+        </div>
+        <div>
+          password:
+          <input {...passwordToPass} id="password" autoComplete="current-password" />
+        </div>
+        <button id="login-button" type="submit">
+          login
+        </button>
+      </form>
+    </Togglable>
   );
 };
 

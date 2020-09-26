@@ -1,16 +1,18 @@
 import React, { useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Togglable from './Togglable';
 
+import { clearUser } from '../reducers/userReducer';
 import { createBlog } from '../reducers/blogReducer';
 import { setNotification } from '../reducers/notificationReducer';
 import { useField } from '../hooks';
 
 const BlogForm = () => {
   const dispatch = useDispatch();
-  const title = useField('text', 'title');
-  const author = useField('text', 'author');
-  const url = useField('text', 'url', 'url');
+  const user = useSelector((state) => state.user);
+  const title = useField('text');
+  const author = useField('text');
+  const url = useField('text');
   const blogFormRef = useRef();
 
   const { reset: titleReset, ...titleToPass } = title;
@@ -39,24 +41,29 @@ const BlogForm = () => {
   };
 
   return (
-    <Togglable buttonLabel="new blog" ref={blogFormRef}>
-      <h2>create new</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          title:
-          <input {...titleToPass} />
-        </div>
-        <div>
-          author:
-          <input {...authorToPass} />
-        </div>
-        <div>
-          url:
-          <input {...urlToPass} />
-        </div>
-        <button type="submit">add blog</button>
-      </form>
-    </Togglable>
+    <>
+      <div>
+        {user.name} logged in <button onClick={() => dispatch(clearUser())}>logout</button>
+      </div>
+      <Togglable buttonLabel="new blog" ref={blogFormRef}>
+        <h2>create new</h2>
+        <form onSubmit={handleSubmit}>
+          <div>
+            title:
+            <input {...titleToPass} />
+          </div>
+          <div>
+            author:
+            <input {...authorToPass} />
+          </div>
+          <div>
+            url:
+            <input {...urlToPass} />
+          </div>
+          <button type="submit">add blog</button>
+        </form>
+      </Togglable>
+    </>
   );
 };
 

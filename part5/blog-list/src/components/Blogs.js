@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-
 import { setNotification } from '../reducers/notificationReducer';
 import { removeBlog, like } from '../reducers/blogReducer';
 
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
   const [showExpanded, setShowExpanded] = useState(false);
+  const user = useSelector((state) => state.user);
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -38,6 +37,7 @@ const Blog = ({ blog }) => {
         {blog.title} {blog.author}{' '}
         <button onClick={() => setShowExpanded(!showExpanded)}>{showExpanded ? 'hide' : 'view'}</button>
       </div>
+
       {showExpanded && (
         <>
           <a href={blog.url}>{blog.url}</a>
@@ -56,4 +56,10 @@ Blog.propTypes = {
   blog: PropTypes.object.isRequired,
 };
 
-export default Blog;
+const Blogs = () => {
+  const blogs = useSelector((state) => state.blogs);
+
+  return blogs.sort((a, b) => b.likes - a.likes).map((blog) => <Blog key={blog.id} blog={blog} />);
+};
+
+export default Blogs;

@@ -1,6 +1,5 @@
-import loginService from '../services/login';
 import blogService from '../services/blogs';
-
+import loginService from '../services/login';
 import { setNotification } from './notificationReducer';
 
 const userReducer = (state = null, action) => {
