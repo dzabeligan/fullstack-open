@@ -1,15 +1,14 @@
 import React, { useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Togglable from './Togglable';
 
-import { clearUser } from '../reducers/userReducer';
 import { createBlog } from '../reducers/blogReducer';
 import { setNotification } from '../reducers/notificationReducer';
 import { useField } from '../hooks';
+import { Button, TextField } from '@material-ui/core';
 
 const BlogForm = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
   const title = useField('text');
   const author = useField('text');
   const url = useField('text');
@@ -41,29 +40,26 @@ const BlogForm = () => {
   };
 
   return (
-    <>
-      <div>
-        {user.name} logged in <button onClick={() => dispatch(clearUser())}>logout</button>
-      </div>
-      <Togglable buttonLabel="new blog" ref={blogFormRef}>
-        <h2>create new</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            title:
-            <input {...titleToPass} />
-          </div>
-          <div>
-            author:
-            <input {...authorToPass} />
-          </div>
-          <div>
-            url:
-            <input {...urlToPass} />
-          </div>
-          <button type="submit">add blog</button>
-        </form>
-      </Togglable>
-    </>
+    <Togglable buttonLabel="new blog" ref={blogFormRef}>
+      <h2>create new</h2>
+      <form onSubmit={handleSubmit}>
+        <div>
+          title:
+          <TextField variant="outlined" size="small" {...titleToPass} />
+        </div>
+        <div>
+          author:
+          <TextField variant="outlined" size="small" {...authorToPass} />
+        </div>
+        <div>
+          url:
+          <TextField variant="outlined" size="small" {...urlToPass} />
+        </div>
+        <Button variant="outlined" color="primary" type="submit">
+          add blog
+        </Button>
+      </form>
+    </Togglable>
   );
 };
 

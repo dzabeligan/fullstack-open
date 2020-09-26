@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
+import { Button, TextField } from '@material-ui/core';
 import Togglable from './Togglable';
 import { login } from '../reducers/userReducer';
 import { setNotification } from '../reducers/notificationReducer';
@@ -31,15 +32,21 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit}>
         <div>
           username:
-          <input {...usernameToPass} id="username" autoComplete="username" />
+          <TextField variant="outlined" size="small" {...usernameToPass} id="username" autoComplete="username" />
         </div>
         <div>
           password:
-          <input {...passwordToPass} id="password" autoComplete="current-password" />
+          <TextField
+            variant="outlined"
+            size="small"
+            {...passwordToPass}
+            id="password"
+            autoComplete="current-password"
+          />
         </div>
-        <button id="login-button" type="submit">
+        <Button variant="outlined" color="primary" id="login-button" type="submit">
           login
-        </button>
+        </Button>
       </form>
     </Togglable>
   );

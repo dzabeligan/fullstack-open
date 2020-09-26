@@ -2,6 +2,7 @@ import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+import usersReducer from './reducers/usersReducer';
 import blogReducer from './reducers/blogReducer';
 import userReducer from './reducers/userReducer';
 import notificationReducer from './reducers/notificationReducer';
@@ -10,6 +11,7 @@ const reducer = combineReducers({
   blogs: blogReducer,
   notification: notificationReducer,
   user: userReducer,
+  users: usersReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));

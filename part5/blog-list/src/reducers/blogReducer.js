@@ -8,6 +8,8 @@ const reducer = (state = [], action) => {
       return [...state, action.data];
     case 'REMOVE_BLOG':
       return state.filter((blog) => blog.id !== action.id);
+    case 'ADD_COMMENT':
+      return state.map((blog) => (blog.id !== action.data.id ? blog : action.data));
     case 'LIKE':
       return state.map((blog) => (blog.id !== action.data.id ? blog : action.data));
     default:
@@ -55,4 +57,15 @@ export const like = (data) => {
     });
   };
 };
+
+export const addComment = (data) => {
+  return async (dispatch) => {
+    const updatedBlog = await blogService.comment(data.id, { comment: data.comment });
+    dispatch({
+      type: 'ADD_COMMENT',
+      data: updatedBlog,
+    });
+  };
+};
+
 export default reducer;
