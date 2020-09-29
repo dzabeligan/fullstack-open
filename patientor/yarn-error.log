@@ -1,0 +1,81 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\saxtee\bin;C:\Program Files (x86)\Intel\TXE Components\TCS;C:\Program Files\Intel\TXE Components\TCS;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\Intel\TXE Components\DAL;C:\Program Files (x86)\Intel\TXE Components\DAL;C:\Program Files\Intel\TXE Components\IPT;C:\Program Files (x86)\Intel\TXE Components\IPT;C:\WINDOWS\System32\OpenSSH;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin;C:\Program Files (x86)\SMLNJ\bin;C:\Users\saxtee\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\saxtee\AppData\Local\Microsoft\WindowsApps;C:\Users\saxtee\AppData\Local\hyper\app-3.0.2\resources\bin;C:\Users\saxtee\AppData\Roaming\npm;C:\Program Files\heroku\bin;C:\Users\saxtee\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\saxtee\.deno\bin;C:\Users\saxtee\AppData\Local\Yarn\bin;C:\Program Files\Sublime Text 3;C:\Users\saxtee\AppData\Roaming\nvm;C:\Program Files\nodejs
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  14.4.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.88.2.tgz: ESOCKETTIMEDOUT
+      at ClientRequest.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:141375:19)
+      at Object.onceWrapper (events.js:421:28)
+      at ClientRequest.emit (events.js:315:20)
+      at TLSSocket.emitRequestTimeout (_http_client.js:768:9)
+      at Object.onceWrapper (events.js:421:28)
+      at TLSSocket.emit (events.js:327:22)
+      at TLSSocket.Socket._onTimeout (net.js:480:8)
+      at listOnTimeout (internal/timers.js:549:17)
+      at processTimers (internal/timers.js:492:7)
+
+npm manifest: 
+  {
+    "name": "patientor",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+      "axios": "^0.19.0",
+      "formik": "^2.0.6",
+      "react": "^16.11.0",
+      "react-dom": "^16.11.0",
+      "react-router-dom": "^5.1.2",
+      "semantic-ui-css": "^2.4.1",
+      "semantic-ui-react": "^0.88.1"
+    },
+    "devDependencies": {
+      "@types/axios": "^0.14.0",
+      "@types/jest": "24.0.19",
+      "@types/node": "12.11.7",
+      "@types/react": "^16.9.11",
+      "@types/react-dom": "16.9.3",
+      "@types/react-router-dom": "^5.1.2",
+      "@typescript-eslint/eslint-plugin": "^2.12.0",
+      "@typescript-eslint/parser": "^2.12.0",
+      "eslint-config-react": "^1.1.7",
+      "react-scripts": "3.3.0",
+      "typescript": "^3.7.0"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject",
+      "lint": "eslint './src/**/*.{ts,tsx}'",
+      "lint:fix": "eslint './src/**/*.{ts,tsx}' --fix"
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
