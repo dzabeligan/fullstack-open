@@ -1,13 +1,13 @@
-import React from "react";
-import axios from "axios";
-import { Container, Table, Button } from "semantic-ui-react";
+import React from 'react';
+import axios from 'axios';
+import { Container, Table, Button } from 'semantic-ui-react';
 
-import { PatientFormValues } from "../AddPatientModal/AddPatientForm";
-import AddPatientModal from "../AddPatientModal";
-import { Patient } from "../types";
-import { apiBaseUrl } from "../constants";
-import HealthRatingBar from "../components/HealthRatingBar";
-import { useStateValue } from "../state";
+import { PatientFormValues } from '../AddPatientModal/AddPatientForm';
+import AddPatientModal from '../AddPatientModal';
+import { Patient } from '../types';
+import { apiBaseUrl } from '../constants';
+import HealthRatingBar from '../components/HealthRatingBar';
+import { addPatient, useStateValue } from '../state';
 
 const PatientListPage: React.FC = () => {
   const [{ patients }, dispatch] = useStateValue();
@@ -24,11 +24,8 @@ const PatientListPage: React.FC = () => {
 
   const submitNewPatient = async (values: PatientFormValues) => {
     try {
-      const { data: newPatient } = await axios.post<Patient>(
-        `${apiBaseUrl}/patients`,
-        values
-      );
-      dispatch({ type: "ADD_PATIENT", payload: newPatient });
+      const { data: newPatient } = await axios.post<Patient>(`${apiBaseUrl}/patients`, values);
+      dispatch(addPatient(newPatient));
       closeModal();
     } catch (e) {
       console.error(e.response.data);
@@ -63,12 +60,7 @@ const PatientListPage: React.FC = () => {
           ))}
         </Table.Body>
       </Table>
-      <AddPatientModal
-        modalOpen={modalOpen}
-        onSubmit={submitNewPatient}
-        error={error}
-        onClose={closeModal}
-      />
+      <AddPatientModal modalOpen={modalOpen} onSubmit={submitNewPatient} error={error} onClose={closeModal} />
       <Button onClick={() => openModal()}>Add New Patient</Button>
     </div>
   );

@@ -64,6 +64,8 @@ const toNewPatientEntry = (object: any): NewPatientEntry => {
     gender: parseGender(object.gender),
     dateOfBirth: parseDate(object.dateOfBirth),
     occupation: parseOccupation(object.occupation),
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    entries: object.entries,
   };
 };
 
