@@ -1,11 +1,37 @@
+import { assertNever } from '../helper';
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { NewPatientEntry, Gender } from '../types';
+import { NewPatientEntry, Gender, NewEntry, Diagnosis, HealthCheckRating } from '../types';
 
 const isString = (text: any): text is string => {
   return typeof text === 'string' || text instanceof String;
+};
+
+const parseHealthCheckRating = (healthCheckRating: any): HealthCheckRating => {
+  if (isNaN(healthCheckRating) || healthCheckRating !== 0  || healthCheckRating !== 1  || healthCheckRating !== 2  || healthCheckRating !== 3 ) {
+    throw new Error(`Incorrect or missing health check rating: ${healthCheckRating}`);
+  }
+
+  return healthCheckRating;
+};
+
+const parseField = (field: any, label: string): string => {
+  if (!field || !isString(field)) {
+    throw new Error(`Incorrect or missing ${label}: ${field}`);
+  }
+
+  return field;
+};
+
+const parseDiagnosisCodes = (diagnosisCodes: any): Array<Diagnosis['code']> => {
+  if (!Array.isArray(diagnosisCodes)) {
+    throw new Error(`Incorrect or missing diagnosis codes: ${diagnosisCodes}`);
+  }
+  diagnosisCodes.map((code: any) => parseField(code, 'code'));
+  
+  return diagnosisCodes;
 };
 
 const parseName = (name: any): string => {
@@ -64,9 +90,46 @@ const toNewPatientEntry = (object: any): NewPatientEntry => {
     gender: parseGender(object.gender),
     dateOfBirth: parseDate(object.dateOfBirth),
     occupation: parseOccupation(object.occupation),
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    entries: object.entries,
   };
+};
+
+const toNewEntries = (object: any): NewEntry => {
+  const baseEntry = {
+    date: parseDate(object.date),
+    specialist: parseField(object.specialist, 'specialist'),
+    description: parseField(object.description, 'description'),
+    diagnosisCodes: parseDiagnosisCodes(object.diagnosisCodes),
+  };
+  switch (object.type) {
+    case 'Hospital':
+      return {
+        ...baseEntry,
+        type: 'Hospital',
+        discharge: {
+          date: parseDate(object.dicharge.date),
+          criteria: parseField(object.discharge.criteria, 'criteria'),
+        },
+      };
+    case 'HealthCheckEntry':
+      return {
+        ...baseEntry,
+        type: 'HealthCheck',
+        healthCheckRating: parseHealthCheckRating(object.healthCheckRating),
+      };
+    case 'OccupationalHealthCare':
+      return {
+        ...baseEntry,
+        type: 'OccupationalHealthcare',
+        employerName: parseField(object.employerName, 'employer name'),
+        sickLeave: {
+          startDate: parseDate(object.sickLeave.startDate),
+          endDate: parseDate(object.sickLeave.endDate),
+        }
+      };
+
+    default:
+      {...baseEntry};
+  }
 };
 
 export default toNewPatientEntry;

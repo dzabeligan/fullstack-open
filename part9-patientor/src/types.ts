@@ -58,7 +58,10 @@ export interface PatientEntry {
 
 export type NonSensitivePatientEntry = Omit<PatientEntry, 'ssn' | 'entries'>;
 
-export type NewPatientEntry = Omit<PatientEntry, 'id'>;
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+export type NewPatientEntry = Omit<PatientEntry, 'id' | 'entries'>;
+
+export type NewEntry = Omit<Entry, 'id'>;
 
 export enum Gender {
   Male = 'male',
